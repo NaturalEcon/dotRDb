@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Transferics RDb</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="~/bundles/lib"></script>
+    <script type="text/javascript" src="~/bower_components/ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="~/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/bundles/app"></script>
+    <link href="~/Content/css" rel="stylesheet" /><
+    link href="~/Content/themes/resource.css" rel="stylesheet"/>
+</head>
+<body>
+    <header>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p class="site-title"><a href="#" ui-sref="home">transferics 0.1&alpha;</a></p>
+            </div>
+            <div class="float-right">
+                <section id="login"></section>
+                <nav>
+                    <ul id="menu">
+                        <li><a href="#/resource/list" ui-sref="resource.list">Resources</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div id="body" ng-app="xferx">
+        <section class="content-wrapper main-content clear-fix">
+            <div id="body" ng-app="xferx">
+                <div ui-view></div>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>No &copy; necessary</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

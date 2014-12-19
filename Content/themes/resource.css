@@ -1,0 +1,19 @@
+﻿.resource-list > li {
+    list-style-type: none;
+}
+
+.resource-list-item > h4 {
+    border-bottom-width:thin;
+    border-bottom-style:solid;
+}
+
+.computer-info {
+    color:lightgray;
+    font-size:small;
+    margin-left:2em;
+}
+
+.resource-list-item-menu > li, .resource-add-controls > li {
+    list-style-type: none;
+    display:inline;
+}

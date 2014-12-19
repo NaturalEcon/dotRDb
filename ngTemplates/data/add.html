@@ -1,0 +1,42 @@
+﻿<h2>Add a datum <span ng-hide="!nodePicked">for Node "{{node.Name}}"</span></h2>
+<div ng-hide="!message">
+    <h3 ng-class="messageType">{{message}}</h3>
+    <a class="btn btn-primary" ng-click="navigation" ng-hide="!navigation">{{navigationMessage}}</a>
+</div>
+<form ng-submit="addDatum()">
+    <div id="typePicker">
+        <div class="btn-group">
+            <label class="btn btn-primary" btn-radio="1"
+                   ng-model="formDatum.DatumType">Resource</label>
+            <label class="btn btn-primary" btn-radio="2"
+                   ng-model="formDatum.DatumType">Process</label>
+            <label class="btn btn-primary" btn-radio="3"
+                   ng-model="formDatum.DatumType">Actor</label>
+        </div>
+    </div>
+    <div id="nodePicker" ng-hide="nodePicked">
+        <label for="nodePickerTypeAhead">Pick an object or relationship:</label>
+        <input id="nodePickerTypeAhead" type="text" class="form-control" placeholder="Enter node name"
+               typeahead-wait-ms="30"
+               ng-model="formDatum.NodeId"
+               typeahead="node.NodeId as node.Name for node in getNodes($viewValue)"
+               typeahead-on-select="selectNode($item)" />
+    </div>
+    <div id="datumPane" collapse="!formDatum.NodeId">
+        <input id="datumName" type="text" class="form-control" placeholder="Name (Optional)"
+               ng-model="formDatum.Name"
+               tooltip-trigger=""/>
+        <span class="form-inline">
+            <input id="datumValue" type="text" class="form-control" placeholder="Value" 
+                   ng-model="formDatum.Value"/>
+            <input id="datumUnit" type="text" class="form-control" placeholder="Unit" 
+                   ng-model="formDatum.Unit"
+                   tooltip="Warning: Units are not yet strongly-typed.  You will have to manage them yourself."
+                   tooltip-trigger="mouseenter" 
+                   tooltip-placement="right" />
+        </span>
+    </div>
+    <button type="button" class="btn btn-primary" ng-click="addDatum()">
+        Add Datum
+    </button>
+</form>

@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dotRDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Actor">
+    <Key>
+      <PropertyRef Name="ActorId" />
+    </Key>
+    <Property Name="ActorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NodeId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Datum">
+    <Key>
+      <PropertyRef Name="DatumId" />
+    </Key>
+    <Property Name="DatumId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NodeId" Type="int" />
+    <Property Name="EdgeId" Type="int" />
+    <Property Name="Value" Type="float" />
+    <Property Name="QuantityType" Type="int" />
+    <Property Name="DatumType" Type="int" />
+    <Property Name="DateCreated" Type="datetime" />
+    <Property Name="Name" Type="varchar" MaxLength="500" />
+    <Property Name="Unit" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DatumType">
+    <Key>
+      <PropertyRef Name="DatumTypeId" />
+    </Key>
+    <Property Name="DatumTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+    <Property Name="Description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="Edge">
+    <Key>
+      <PropertyRef Name="EdgeId" />
+    </Key>
+    <Property Name="EdgeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EdgeTypeId" Type="int" Nullable="false" />
+    <Property Name="FromNodeId" Type="int" Nullable="false" />
+    <Property Name="ToNodeId" Type="int" Nullable="false" />
+    <Property Name="HyperedgeId" Type="int" />
+  </EntityType>
+  <EntityType Name="EdgeType">
+    <Key>
+      <PropertyRef Name="EdgeTypeId" />
+    </Key>
+    <Property Name="EdgeTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DisplayName" Type="varchar" MaxLength="50" />
+    <Property Name="FromType" Type="int" />
+    <Property Name="ToType" Type="int" />
+  </EntityType>
+  <EntityType Name="Node">
+    <Key>
+      <PropertyRef Name="NodeId" />
+    </Key>
+    <Property Name="NodeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NodeTypeId" Type="int" />
+  </EntityType>
+  <EntityType Name="NodeType">
+    <Key>
+      <PropertyRef Name="NodeTypeId" />
+    </Key>
+    <Property Name="NodeTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Process">
+    <Key>
+      <PropertyRef Name="ProcessId" />
+    </Key>
+    <Property Name="ProcessId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NodeId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" />
+  </EntityType>
+  <EntityType Name="QuantityType">
+    <Key>
+      <PropertyRef Name="QuantityTypeId" />
+    </Key>
+    <Property Name="QuantityTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Unit" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Resource">
+    <Key>
+      <PropertyRef Name="ResourceId" />
+    </Key>
+    <Property Name="ResourceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NodeId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar(max)" />
+  </EntityType>
+  <Association Name="FK_ActorNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Actor" Type="Self.Actor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Actor">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DatumEdgeId">
+    <End Role="Edge" Type="Self.Edge" Multiplicity="0..1" />
+    <End Role="Datum" Type="Self.Datum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Edge">
+        <PropertyRef Name="EdgeId" />
+      </Principal>
+      <Dependent Role="Datum">
+        <PropertyRef Name="EdgeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DatumNodeId">
+    <End Role="Node" Type="Self.Node" Multiplicity="0..1" />
+    <End Role="Datum" Type="Self.Datum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Datum">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DatumQuantityType">
+    <End Role="QuantityType" Type="Self.QuantityType" Multiplicity="0..1" />
+    <End Role="Datum" Type="Self.Datum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuantityType">
+        <PropertyRef Name="QuantityTypeId" />
+      </Principal>
+      <Dependent Role="Datum">
+        <PropertyRef Name="QuantityType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DatumType">
+    <End Role="DatumType" Type="Self.DatumType" Multiplicity="0..1" />
+    <End Role="Datum" Type="Self.Datum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DatumType">
+        <PropertyRef Name="DatumTypeId" />
+      </Principal>
+      <Dependent Role="Datum">
+        <PropertyRef Name="DatumType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EdgeEdgeType">
+    <End Role="EdgeType" Type="Self.EdgeType" Multiplicity="1" />
+    <End Role="Edge" Type="Self.Edge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EdgeType">
+        <PropertyRef Name="EdgeTypeId" />
+      </Principal>
+      <Dependent Role="Edge">
+        <PropertyRef Name="EdgeTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EdgeFromNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1" />
+    <End Role="Edge" Type="Self.Edge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Edge">
+        <PropertyRef Name="FromNodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EdgeToNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1" />
+    <End Role="Edge" Type="Self.Edge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Edge">
+        <PropertyRef Name="ToNodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NodeToNodeTypeId">
+    <End Role="NodeType" Type="Self.NodeType" Multiplicity="0..1" />
+    <End Role="Node" Type="Self.Node" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NodeType">
+        <PropertyRef Name="NodeTypeId" />
+      </Principal>
+      <Dependent Role="Node">
+        <PropertyRef Name="NodeTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProcessNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Process" Type="Self.Process" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Process">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ResourceNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Resource" Type="Self.Resource" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Resource">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dotRDbModelStoreContainer">
+    <EntitySet Name="Actor" EntityType="Self.Actor" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Datum" EntityType="Self.Datum" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DatumType" EntityType="Self.DatumType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Edge" EntityType="Self.Edge" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EdgeType" EntityType="Self.EdgeType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Node" EntityType="Self.Node" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NodeType" EntityType="Self.NodeType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Process" EntityType="Self.Process" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="QuantityType" EntityType="Self.QuantityType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Resource" EntityType="Self.Resource" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ActorNode" Association="Self.FK_ActorNode">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Actor" EntitySet="Actor" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DatumEdgeId" Association="Self.FK_DatumEdgeId">
+      <End Role="Edge" EntitySet="Edge" />
+      <End Role="Datum" EntitySet="Datum" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DatumNodeId" Association="Self.FK_DatumNodeId">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Datum" EntitySet="Datum" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DatumQuantityType" Association="Self.FK_DatumQuantityType">
+      <End Role="QuantityType" EntitySet="QuantityType" />
+      <End Role="Datum" EntitySet="Datum" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DatumType" Association="Self.FK_DatumType">
+      <End Role="DatumType" EntitySet="DatumType" />
+      <End Role="Datum" EntitySet="Datum" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EdgeEdgeType" Association="Self.FK_EdgeEdgeType">
+      <End Role="EdgeType" EntitySet="EdgeType" />
+      <End Role="Edge" EntitySet="Edge" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EdgeFromNode" Association="Self.FK_EdgeFromNode">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Edge" EntitySet="Edge" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EdgeToNode" Association="Self.FK_EdgeToNode">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Edge" EntitySet="Edge" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NodeToNodeTypeId" Association="Self.FK_NodeToNodeTypeId">
+      <End Role="NodeType" EntitySet="NodeType" />
+      <End Role="Node" EntitySet="Node" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProcessNode" Association="Self.FK_ProcessNode">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Process" EntitySet="Process" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ResourceNode" Association="Self.FK_ResourceNode">
+      <End Role="Node" EntitySet="Node" />
+      <End Role="Resource" EntitySet="Resource" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

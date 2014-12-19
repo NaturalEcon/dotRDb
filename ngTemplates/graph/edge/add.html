@@ -1,0 +1,50 @@
+﻿<h2>Add edge</h2>
+<div ng-hide="!message">
+    <h3 ng-class="messageType">{{message}}</h3>
+    <a class="btn btn-primary" ng-click="navigation" ng-hide="!navigation">{{navigationMessage}}</a>
+</div>
+<form ng-submit="addEdge()" autocomplete="off">
+    <h3>
+        <span ng-show="selectedEdgeType.FromType">{{ edgeType.DisplayName }}</span>
+        <span ng-show="fromNode.NodeId">from {{ fromNode.Name }}</span>
+        <span ng-show="toNode.NodeId"> to {{ toNode.Name }}</span>
+    </h3>
+    <ul class="computer-info list-inline">
+        <li ng-show="fromNode.NodeId">
+            <p>Id: {{ fromNode.Resources[0].NodeId }}</p>
+            <p>NodeId: {{ fromNode.NodeId }}</p>
+        </li>
+        <li ng-show="toNode.NodeId">
+            <p>Id: {{ toNode.Resources[0].NodeId }}</p>
+            <p>NodeId: {{ toNode.NodeId }}</p>
+        </li>
+    </ul>
+    <div id="fromNodePicker" ng-hide="routeParam">
+        <label for="from-node-name">Pick a node:</label>
+        <input id="from-node-name" type="text" class="form-control" placeholder="Enter node"
+               ng-model="selectedFromNode"
+               typeahead="fromResult as fromResult.Name for fromResult in nodeSearch($viewValue,'from')"
+               typeahead-wait-ms="20"
+               typeahead-on-select="selectFromNode($item)" />
+    </div>
+    <div id="edgeTypePicker">
+        <label for="edge-type">Select an edge type:</label>
+        <select id="edge-type" class="dropdown"
+                ng-model="selectedEdgeType"
+                ng-options="edgeType as edgeType.DisplayName for edgeType in edgeTypes"
+                ng-change="selectEdgeType()">
+            <option>Select an Edge Type.</option>
+        </select>
+    </div>
+    <div id="toNodePicker">
+        <label for="to-node-name">Pick a node:</label>
+        <input id="to-node-name" type="text" class="form-control" placeholder="Enter node"
+               ng-model="selectedToNode"
+               typeahead="toResult as toResult.Name for toResult in nodeSearch($viewValue,'to')"
+               typeahead-wait-ms="20"
+               typeahead-on-select="selectToNode($item)" />
+    </div>
+    <div id="submitbutton">
+        <button class="btn btn-success" ng-submit>Submit</button>
+    </div>
+</form>

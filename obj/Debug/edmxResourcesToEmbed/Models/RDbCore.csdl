@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dotRDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Actor">
+    <Key>
+      <PropertyRef Name="ActorId" />
+    </Key>
+    <Property Name="ActorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NodeId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Node" Relationship="Self.FK_ActorNode" FromRole="Actor" ToRole="Node" />
+  </EntityType>
+  <EntityType Name="Edge">
+    <Key>
+      <PropertyRef Name="EdgeId" />
+    </Key>
+    <Property Name="EdgeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EdgeTypeId" Type="Int32" Nullable="false" />
+    <Property Name="FromNodeId" Type="Int32" Nullable="false" />
+    <Property Name="ToNodeId" Type="Int32" Nullable="false" />
+    <Property Name="HyperedgeId" Type="Int32" />
+    <NavigationProperty Name="EdgeType" Relationship="Self.FK_EdgeEdgeType" FromRole="Edge" ToRole="EdgeType" />
+    <NavigationProperty Name="From" Relationship="Self.FK_EdgeFromNode" FromRole="Edge" ToRole="Node" />
+    <NavigationProperty Name="To" Relationship="Self.FK_EdgeToNode" FromRole="Edge" ToRole="Node" />
+    <NavigationProperty Name="Data" Relationship="dotRDbModel.FK_DatumEdgeId" FromRole="Edge" ToRole="Datum" />
+  </EntityType>
+  <EntityType Name="EdgeType">
+    <Key>
+      <PropertyRef Name="EdgeTypeId" />
+    </Key>
+    <Property Name="EdgeTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DisplayName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Edges" Relationship="Self.FK_EdgeEdgeType" FromRole="EdgeType" ToRole="Edge" />
+    <Property Name="FromType" Type="Int32" />
+    <Property Name="ToType" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Node">
+    <Key>
+      <PropertyRef Name="NodeId" />
+    </Key>
+    <Property Name="NodeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NodeTypeId" Type="Int32" />
+    <NavigationProperty Name="Actors" Relationship="Self.FK_ActorNode" FromRole="Node" ToRole="Actor" />
+    <NavigationProperty Name="OutgoingEdges" Relationship="Self.FK_EdgeFromNode" FromRole="Node" ToRole="Edge" />
+    <NavigationProperty Name="IncomingEdges" Relationship="Self.FK_EdgeToNode" FromRole="Node" ToRole="Edge" />
+    <NavigationProperty Name="NodeType" Relationship="Self.FK_NodeToNodeTypeId" FromRole="Node" ToRole="NodeType" />
+    <NavigationProperty Name="Processes" Relationship="Self.FK_ProcessNode" FromRole="Node" ToRole="Process" />
+    <NavigationProperty Name="Resources" Relationship="Self.FK_ResourceNode" FromRole="Node" ToRole="Resource" />
+    <NavigationProperty Name="Data" Relationship="dotRDbModel.FK_DatumNodeId" FromRole="Node" ToRole="Datum" />
+  </EntityType>
+  <EntityType Name="NodeType">
+    <Key>
+      <PropertyRef Name="NodeTypeId" />
+    </Key>
+    <Property Name="NodeTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Nodes" Relationship="Self.FK_NodeToNodeTypeId" FromRole="NodeType" ToRole="Node" />
+  </EntityType>
+  <EntityType Name="Process">
+    <Key>
+      <PropertyRef Name="ProcessId" />
+    </Key>
+    <Property Name="ProcessId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NodeId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Node" Relationship="Self.FK_ProcessNode" FromRole="Process" ToRole="Node" />
+  </EntityType>
+  <EntityType Name="QuantityType">
+    <Key>
+      <PropertyRef Name="QuantityTypeId" />
+    </Key>
+    <Property Name="QuantityTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Data" Relationship="dotRDbModel.FK_DatumQuantityType" FromRole="QuantityType" ToRole="Datum" />
+  </EntityType>
+  <EntityType Name="Resource">
+    <Key>
+      <PropertyRef Name="ResourceId" />
+    </Key>
+    <Property Name="ResourceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NodeId" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Node" Relationship="Self.FK_ResourceNode" FromRole="Resource" ToRole="Node" />
+  </EntityType>
+  <Association Name="FK_ActorNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1" />
+    <End Role="Actor" Type="Self.Actor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Actor">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EdgeEdgeType">
+    <End Role="EdgeType" Type="Self.EdgeType" Multiplicity="1" />
+    <End Role="Edge" Type="Self.Edge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EdgeType">
+        <PropertyRef Name="EdgeTypeId" />
+      </Principal>
+      <Dependent Role="Edge">
+        <PropertyRef Name="EdgeTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EdgeFromNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1" />
+    <End Role="Edge" Type="Self.Edge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Edge">
+        <PropertyRef Name="FromNodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EdgeToNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1" />
+    <End Role="Edge" Type="Self.Edge" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Edge">
+        <PropertyRef Name="ToNodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NodeToNodeTypeId">
+    <End Role="NodeType" Type="Self.NodeType" Multiplicity="0..1" />
+    <End Role="Node" Type="Self.Node" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NodeType">
+        <PropertyRef Name="NodeTypeId" />
+      </Principal>
+      <Dependent Role="Node">
+        <PropertyRef Name="NodeTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProcessNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1" />
+    <End Role="Process" Type="Self.Process" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Process">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ResourceNode">
+    <End Role="Node" Type="Self.Node" Multiplicity="1" />
+    <End Role="Resource" Type="Self.Resource" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Resource">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dotRDbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Actors" EntityType="Self.Actor" />
+    <EntitySet Name="Edges" EntityType="Self.Edge" />
+    <EntitySet Name="EdgeTypes" EntityType="Self.EdgeType" />
+    <EntitySet Name="Nodes" EntityType="Self.Node" />
+    <EntitySet Name="NodeTypes" EntityType="Self.NodeType" />
+    <EntitySet Name="Processes" EntityType="Self.Process" />
+    <EntitySet Name="QuantityTypes" EntityType="Self.QuantityType" />
+    <EntitySet Name="Resources" EntityType="Self.Resource" />
+    <AssociationSet Name="FK_ActorNode" Association="Self.FK_ActorNode">
+      <End Role="Node" EntitySet="Nodes" />
+      <End Role="Actor" EntitySet="Actors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EdgeEdgeType" Association="Self.FK_EdgeEdgeType">
+      <End Role="EdgeType" EntitySet="EdgeTypes" />
+      <End Role="Edge" EntitySet="Edges" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EdgeFromNode" Association="Self.FK_EdgeFromNode">
+      <End Role="Node" EntitySet="Nodes" />
+      <End Role="Edge" EntitySet="Edges" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EdgeToNode" Association="Self.FK_EdgeToNode">
+      <End Role="Node" EntitySet="Nodes" />
+      <End Role="Edge" EntitySet="Edges" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NodeToNodeTypeId" Association="Self.FK_NodeToNodeTypeId">
+      <End Role="NodeType" EntitySet="NodeTypes" />
+      <End Role="Node" EntitySet="Nodes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProcessNode" Association="Self.FK_ProcessNode">
+      <End Role="Node" EntitySet="Nodes" />
+      <End Role="Process" EntitySet="Processes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ResourceNode" Association="Self.FK_ResourceNode">
+      <End Role="Node" EntitySet="Nodes" />
+      <End Role="Resource" EntitySet="Resources" />
+    </AssociationSet>
+    <EntitySet Name="Data" EntityType="dotRDbModel.Datum" />
+    <EntitySet Name="DatumTypes" EntityType="dotRDbModel.DatumType" />
+    <AssociationSet Name="FK_DatumEdgeId" Association="dotRDbModel.FK_DatumEdgeId">
+      <End Role="Edge" EntitySet="Edges" />
+      <End Role="Datum" EntitySet="Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DatumNodeId" Association="dotRDbModel.FK_DatumNodeId">
+      <End Role="Node" EntitySet="Nodes" />
+      <End Role="Datum" EntitySet="Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DatumType" Association="dotRDbModel.FK_DatumType">
+      <End Role="DatumType" EntitySet="DatumTypes" />
+      <End Role="Datum" EntitySet="Data" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DatumQuantityType" Association="dotRDbModel.FK_DatumQuantityType">
+      <End Role="QuantityType" EntitySet="QuantityTypes" />
+      <End Role="Datum" EntitySet="Data" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Datum">
+    <Key>
+      <PropertyRef Name="DatumId" />
+    </Key>
+    <Property Name="DatumId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NodeId" Type="Int32" />
+    <Property Name="EdgeId" Type="Int32" />
+    <Property Name="Value" Type="Double" />
+    <Property Name="QuantityType" Type="Int32" />
+    <Property Name="DatumType" Type="Int32" />
+    <Property Name="DateCreated" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Edge" Relationship="dotRDbModel.FK_DatumEdgeId" FromRole="Datum" ToRole="Edge" />
+    <NavigationProperty Name="Node" Relationship="dotRDbModel.FK_DatumNodeId" FromRole="Datum" ToRole="Node" />
+    <Property Name="Name" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="Unit" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DatumType">
+    <Key>
+      <PropertyRef Name="DatumTypeId" />
+    </Key>
+    <Property Name="DatumTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Data" Relationship="dotRDbModel.FK_DatumType" FromRole="DatumType" ToRole="Datum" />
+  </EntityType>
+  <Association Name="FK_DatumEdgeId">
+    <End Type="dotRDbModel.Edge" Role="Edge" Multiplicity="0..1" />
+    <End Type="dotRDbModel.Datum" Role="Datum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Edge">
+        <PropertyRef Name="EdgeId" />
+      </Principal>
+      <Dependent Role="Datum">
+        <PropertyRef Name="EdgeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DatumNodeId">
+    <End Type="dotRDbModel.Node" Role="Node" Multiplicity="0..1" />
+    <End Type="dotRDbModel.Datum" Role="Datum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Node">
+        <PropertyRef Name="NodeId" />
+      </Principal>
+      <Dependent Role="Datum">
+        <PropertyRef Name="NodeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DatumType">
+    <End Type="dotRDbModel.DatumType" Role="DatumType" Multiplicity="0..1" />
+    <End Type="dotRDbModel.Datum" Role="Datum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DatumType">
+        <PropertyRef Name="DatumTypeId" />
+      </Principal>
+      <Dependent Role="Datum">
+        <PropertyRef Name="DatumType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DatumQuantityType">
+    <End Type="dotRDbModel.QuantityType" Role="QuantityType" Multiplicity="0..1" />
+    <End Type="dotRDbModel.Datum" Role="Datum" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuantityType">
+        <PropertyRef Name="QuantityTypeId" />
+      </Principal>
+      <Dependent Role="Datum">
+        <PropertyRef Name="QuantityType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

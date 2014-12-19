@@ -1,0 +1,13 @@
+﻿<h3>{{resource.Name}}</h3>
+
+<div>
+    <p>
+        {{resource.Description}}
+    </p>
+    <h4>Data: </h4>
+    <ul class="list-unstyled" ng-repeat="datum in data">
+        <li>{{datum.Name}}</li>
+    </ul>
+    <p class="text-warning" ng-if="data.length === 0">No data on this resource.</p>
+    <a class="btn btn-primary" ng-href="#/data/addfor/{{resource.ResourceId}}">Add New</a>
+</div>

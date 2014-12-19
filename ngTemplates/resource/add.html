@@ -1,0 +1,54 @@
+﻿<h2 class="confirmation-message">{{ confirmationMessage }}</h2>
+<h3>Enter basic information about the resource.</h3>
+<form ng-submit="addResource()">
+    <input class="form-control" id="name" type="text" placeholder="Enter a name" ng-model="resource.Name" />
+    <label for="description">Description:</label>
+    <textarea class="form-control" id="description" placeholder="Write a description" ng-model="resource.Description"></textarea>
+    <div class="validation-message">
+        <h3 class="validation-error">{{ validationMessage }}</h3> <!--Possible candidates:-->
+        <ol ng-repeat="candidate in resourceCandidates">
+            <li>
+                <h5>{{ candidate.Name }}</h5>
+                <p>{{ candidate.Description }}</p>
+            </li>
+        </ol>
+    </div>
+    
+    <ul class="resource-add-controls">
+        <li>
+            <button type="submit" class="btn btn-primary">
+                <span class="ui-button-text">
+                    Submit
+                </span>
+            </button>
+        </li>
+        <li>
+            <button type="reset" class="btn btn-primary">
+                <span class="ui-button-text">
+                    Clear
+                </span>
+            </button>
+        </li>
+        <li>
+            <a href="#/resource/list" class="btn btn-primary">
+                <span class="ui-button-text">
+                    Cancel
+                </span>
+            </a>
+        </li>
+        <li>
+            <a class="btn btn-primary" ng-if="!doAddMetadata" ng-click="addMetadata()">
+                <span class="ui-button-text">
+                    Add Metadata
+                </span>
+            </a>
+        </li>
+    </ul>
+
+    <div id="add-metadata" ng-if="doAddMetadata">
+        <label for="metadata-pane">Add metadata:</label>
+        <div id="metadata-pane">
+            <select ng-options="metadataTypeOptions"></select>
+        </div>
+    </div>
+</form>

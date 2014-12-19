@@ -1,0 +1,40 @@
+﻿<h2>Node for {{ node.Name }}:</h2>
+
+<h3>Data for Node {{ node.NodeId }}</h3>
+<table class="table data-table-inactive">
+    <tr class="data-table-header">
+        <th>Name</th>
+        <th>Value</th>
+        <th>Unit</th>
+        <th>Created on</th>
+    </tr>
+    
+    <tbody>
+        <tr ng-repeat="datum in data">
+            <td><a ng-href="#/data/{{datum.DatumId}}">{{ datum.Name }}</a></td>
+            <td>{{ datum.Value }}</td>
+            <td>{{ datum.Unit }}</td>
+            <td>{{ datum.DateCreated }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h4><a class="btn btn-primary" ng-href="#/data/addfor/{{ node.NodeId }}">Add Datum</a></h4>
+
+<h3>Connections to and from {{about.Name}}</h3>
+<div class="container">
+    <accordion close-others="oneAtATime">
+        <accordion-group heading="{{edgeType.DisplayName}} Edges"
+                         ng-repeat="edgeType in edgeTypes"
+                         ng-mouseover="getEdgeSet(edgeType.EdgeTypeId)">
+            <p ng-if="edges[edgeType.EdgeTypeId].length === 0">None.</p>
+            <ul class="list-unstyled" ng-repeat="item in edges[edgeType.EdgeTypeId]">
+                <li>
+                    <h5>{{item.Name}}</h5>
+                </li>
+            </ul>
+        </accordion-group>
+    </accordion>
+</div>
+
+<h4><a class="btn btn-primary" ng-href="#/graph/edge/addfor/{{ node.NodeId }}">Add edge</a></h4>

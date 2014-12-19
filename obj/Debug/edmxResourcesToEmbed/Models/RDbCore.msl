@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="dotRDbModelStoreContainer" CdmEntityContainer="dotRDbEntities">
+    <EntitySetMapping Name="Actors">
+      <EntityTypeMapping TypeName="dotRDbModel.Actor">
+        <MappingFragment StoreEntitySet="Actor">
+          <ScalarProperty Name="ActorId" ColumnName="ActorId" />
+          <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Edges">
+      <EntityTypeMapping TypeName="dotRDbModel.Edge">
+        <MappingFragment StoreEntitySet="Edge">
+          <ScalarProperty Name="EdgeId" ColumnName="EdgeId" />
+          <ScalarProperty Name="EdgeTypeId" ColumnName="EdgeTypeId" />
+          <ScalarProperty Name="FromNodeId" ColumnName="FromNodeId" />
+          <ScalarProperty Name="ToNodeId" ColumnName="ToNodeId" />
+          <ScalarProperty Name="HyperedgeId" ColumnName="HyperedgeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EdgeTypes">
+      <EntityTypeMapping TypeName="dotRDbModel.EdgeType">
+        <MappingFragment StoreEntitySet="EdgeType">
+          <ScalarProperty Name="ToType" ColumnName="ToType" />
+          <ScalarProperty Name="FromType" ColumnName="FromType" />
+          <ScalarProperty Name="EdgeTypeId" ColumnName="EdgeTypeId" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="DisplayName" ColumnName="DisplayName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Nodes">
+      <EntityTypeMapping TypeName="dotRDbModel.Node">
+        <MappingFragment StoreEntitySet="Node">
+          <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+          <ScalarProperty Name="NodeTypeId" ColumnName="NodeTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NodeTypes">
+      <EntityTypeMapping TypeName="dotRDbModel.NodeType">
+        <MappingFragment StoreEntitySet="NodeType">
+          <ScalarProperty Name="NodeTypeId" ColumnName="NodeTypeId" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Processes">
+      <EntityTypeMapping TypeName="dotRDbModel.Process">
+        <MappingFragment StoreEntitySet="Process">
+          <ScalarProperty Name="ProcessId" ColumnName="ProcessId" />
+          <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="QuantityTypes">
+      <EntityTypeMapping TypeName="dotRDbModel.QuantityType">
+        <MappingFragment StoreEntitySet="QuantityType">
+          <ScalarProperty Name="QuantityTypeId" ColumnName="QuantityTypeId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Unit" ColumnName="Unit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Resources">
+      <EntityTypeMapping TypeName="dotRDbModel.Resource">
+        <MappingFragment StoreEntitySet="Resource">
+          <ScalarProperty Name="ResourceId" ColumnName="ResourceId" />
+          <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Data">
+      <EntityTypeMapping TypeName="dotRDbModel.Datum">
+        <MappingFragment StoreEntitySet="Datum">
+          <ScalarProperty Name="Unit" ColumnName="Unit" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+          <ScalarProperty Name="DatumType" ColumnName="DatumType" />
+          <ScalarProperty Name="QuantityType" ColumnName="QuantityType" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+          <ScalarProperty Name="EdgeId" ColumnName="EdgeId" />
+          <ScalarProperty Name="NodeId" ColumnName="NodeId" />
+          <ScalarProperty Name="DatumId" ColumnName="DatumId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DatumTypes">
+      <EntityTypeMapping TypeName="dotRDbModel.DatumType">
+        <MappingFragment StoreEntitySet="DatumType">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="DatumTypeId" ColumnName="DatumTypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
